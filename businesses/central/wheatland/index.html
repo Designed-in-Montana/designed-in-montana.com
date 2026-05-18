@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wheatland County · Central Montana · Designed in Montana</title>
+  <meta name="description" content="Businesses in Wheatland County, Central Montana.">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    .breadcrumb { font-size: 13px; color: var(--fg-muted); margin-bottom: 18px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .breadcrumb a { color: var(--fg-muted); }
+    .breadcrumb a:hover { color: var(--accent-warm); }
+    .city-link { cursor: pointer; }
+    .city-link:hover circle:first-of-type { fill: #b06a3b; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header-slot"></div>
+
+  <main>
+
+    <section class="page-header">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="/index.html">Home</a> /
+          <a href="/pages/regions.html">Regions</a> /
+          <a href="/businesses/central/">Central Montana</a> /
+          Wheatland County
+        </div>
+        <div class="eyebrow">Central Montana</div>
+        <h1>Wheatland County</h1>
+        <p class="lede">Cities, towns, and listed businesses in Wheatland County.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="map-wrap">
+          <div id="city-map"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2 class="section-title">Businesses in Wheatland County</h2>
+        <div class="business-grid" id="county-businesses"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer-slot"></div>
+
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/geography.js"></script>
+  <script src="/assets/js/businesses.js"></script>
+  <script src="/assets/js/business-loader.js"></script>
+  <script>
+    const REGION_ID = 'central';
+    const COUNTY_ID = 'wheatland';
+    document.addEventListener('DOMContentLoaded', async () => {
+      buildCityMap(document.getElementById('city-map'), REGION_ID, COUNTY_ID);
+
+      const all = await window.MTBiz.loadAllBusinesses();
+      const here = all.filter(b => b.region === REGION_ID && b.county === COUNTY_ID);
+      window.MTBiz.renderCards(document.getElementById('county-businesses'), here);
+    });
+  </script>
+
+</body>
+</html>

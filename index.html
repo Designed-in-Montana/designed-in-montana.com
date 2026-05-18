@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Designed in Montana · Big Sky Businesses</title>
+  <meta name="description" content="Designed in Montana is a directory and backlink hub for Montana small businesses — helping them get noticed across the Treasure State.">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <!-- Global header injected from /includes/header.html -->
+  <div id="site-header-slot"></div>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="container">
+        <span class="hero-eyebrow fade-in">A Directory of Treasure State Businesses</span>
+        <h1 class="fade-in delay-1">
+          Helping Montana<br>get <em>noticed.</em>
+        </h1>
+        <p class="lede fade-in delay-2">
+          A backlink hub and directory for the small businesses — storefronts and online — that make Montana what it is. Find them by region, county, or what they do.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ INTERACTIVE REGION MAP ============ -->
+    <section style="padding-top: 20px;">
+      <div class="container">
+        <h2 class="section-title">Explore by region</h2>
+        <p class="section-sub">Click any region to jump into its businesses. Montana's five tourism regions span everything from copper mountains to badland prairie.</p>
+
+        <div class="map-wrap">
+          <div id="region-map"></div>
+          <div class="region-info" id="region-info">
+            <div class="region-info-eyebrow">Hover or tap a region</div>
+            <h3>Five regions, one Big Sky</h3>
+            <p>Southwest, Central, Missouri River, Yellowstone, and Southeast — each with its own counties, towns, and businesses to discover.</p>
+          </div>
+        </div>
+
+        <div class="region-quicklinks">
+          <a href="/pages/search.html?region=southwest"><span>Southwest</span><span>→</span></a>
+          <a href="/pages/search.html?region=central"><span>Central</span><span>→</span></a>
+          <a href="/pages/search.html?region=missouri-river"><span>Missouri River</span><span>→</span></a>
+          <a href="/pages/search.html?region=yellowstone"><span>Yellowstone</span><span>→</span></a>
+          <a href="/pages/search.html?region=southeast"><span>Southeast</span><span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURED ============ -->
+    <section style="background: linear-gradient(180deg, transparent, rgba(235,228,210,0.5));">
+      <div class="container">
+        <h2 class="section-title">Recently added</h2>
+        <p class="section-sub">A few of the most recent Montana businesses to join the directory.</p>
+        <div class="business-grid" id="featured-grid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global footer injected from /includes/footer.html -->
+  <div id="site-footer-slot"></div>
+
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/region-map.js"></script>
+  <script src="/assets/js/businesses.js"></script>
+  <script src="/assets/js/business-loader.js"></script>
+  <script>
+    // Render the region map with hover info + click-to-search
+    document.addEventListener('DOMContentLoaded', () => {
+      const mapEl  = document.getElementById('region-map');
+      const infoEl = document.getElementById('region-info');
+
+      buildRegionMap(mapEl, {
+        onHover: (region) => {
+          infoEl.innerHTML = `
+            <div class="region-info-eyebrow">${region.sublabel}</div>
+            <h3>${region.label} Montana</h3>
+            <p>${region.description}</p>
+            <a class="btn btn-primary" href="/pages/search.html?region=${region.id}">
+              Browse ${region.label.toLowerCase()} businesses →
+            </a>
+          `;
+        },
+        onSelect: (id) => {
+          window.location.href = `/pages/search.html?region=${id}`;
+        }
+      });
+
+      // Load featured (most recent) businesses
+      window.MTBiz.loadAllBusinesses().then(all => {
+        const featured = all.slice(0, 6);
+        window.MTBiz.renderCards(document.getElementById('featured-grid'), featured);
+      });
+    });
+  </script>
+
+</body>
+</html>

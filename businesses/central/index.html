@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central Montana · Designed in Montana</title>
+  <meta name="description" content="Browse businesses in Central Montana by county.">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    .county-link { cursor: pointer; }
+    .county-link:hover .region-shape { filter: brightness(1.15); }
+    .breadcrumb { font-size: 13px; color: var(--fg-muted); margin-bottom: 18px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .breadcrumb a { color: var(--fg-muted); }
+    .breadcrumb a:hover { color: var(--accent-warm); }
+    .county-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 40px;
+    }
+    .county-grid a {
+      padding: 14px 18px;
+      background: #fff;
+      border: 1px solid rgba(42,42,38,0.08);
+      border-radius: 2px;
+      font-size: 14px;
+      color: var(--fg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all .2s;
+    }
+    .county-grid a:hover {
+      border-color: var(--accent);
+      background: var(--mt-pine-dark);
+      color: var(--mt-snow);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="site-header-slot"></div>
+
+  <main>
+
+    <section class="page-header">
+      <div class="container">
+        <div class="breadcrumb"><a href="/index.html">Home</a> / <a href="/pages/regions.html">Regions</a> / Central Montana</div>
+        <div class="eyebrow">Central Montana</div>
+        <h1>Central Montana</h1>
+        <p class="lede">A transition zone of prairies, island mountain ranges, and agriculture centered around the Lewistown area. Click any county on the map to see its towns and listed businesses.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="map-wrap">
+          <div id="county-map"></div>
+        </div>
+
+        <h2 class="section-title" style="margin-top:60px;">All counties</h2>
+        <div class="county-grid" id="county-list"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2 class="section-title">Businesses in Central Montana</h2>
+        <div class="business-grid" id="region-businesses"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer-slot"></div>
+
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/geography.js"></script>
+  <script src="/assets/js/businesses.js"></script>
+  <script src="/assets/js/business-loader.js"></script>
+  <script>
+    const REGION_ID = 'central';
+    document.addEventListener('DOMContentLoaded', async () => {
+      buildCountyMap(document.getElementById('county-map'), REGION_ID);
+
+      // Build the county list
+      const region = window.MT_GEOGRAPHY[REGION_ID];
+      const listEl = document.getElementById('county-list');
+      region.counties.forEach(c => {
+        const a = document.createElement('a');
+        a.href = '/businesses/' + REGION_ID + '/' + c.id + '/';
+        a.innerHTML = '<span>' + c.label + '</span><span style="opacity:0.5;">→</span>';
+        listEl.appendChild(a);
+      });
+
+      // Load businesses for this region
+      const all = await window.MTBiz.loadAllBusinesses();
+      const here = all.filter(b => b.region === REGION_ID);
+      window.MTBiz.renderCards(document.getElementById('region-businesses'), here);
+    });
+  </script>
+
+</body>
+</html>

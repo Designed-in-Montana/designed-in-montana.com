@@ -1,0 +1,9 @@
+# social.txt — only filled-in platforms will show as icons on the card
+# Supported: facebook, instagram, threads, x, pinterest, reddit, tiktok
+facebook: https://facebook.com/mountainwizard
+instagram: https://instagram.com/mountainwizard
+x:
+threads:
+pinterest:
+reddit:
+tiktok:

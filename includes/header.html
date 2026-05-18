@@ -1,0 +1,74 @@
+<!--
+  =========================================================================
+  GLOBAL HEADER  ·  /includes/header.html
+  Edit this file to update the header on EVERY page of the site.
+  =========================================================================
+-->
+<header class="site-header">
+  <div class="container">
+
+    <a href="/index.html" class="brand" aria-label="Designed in Montana, home">
+      <!-- Montana state shape with fountain pen drawing it -->
+      <svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3b5d3a"/>
+            <stop offset="1" stop-color="#21391f"/>
+          </linearGradient>
+          <linearGradient id="penGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#c89545"/>
+            <stop offset="1" stop-color="#b06a3b"/>
+          </linearGradient>
+        </defs>
+        <!-- Montana shape -->
+        <path d="M 4 8 L 76 8 L 76 12 L 74 14 L 74 18 L 72 20 L 72 24 L 70 26 L 70 30 L 68 32 L 68 34 L 4 34 Z"
+              fill="url(#brandGrad)"/>
+        <!-- Ink-drawn underline showing pen path -->
+        <path d="M 4 34 L 68 34"
+              fill="none"
+              stroke="#c89545"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-dasharray="2 1.5"/>
+        <!-- Fountain pen body -->
+        <g transform="translate(60, 26) rotate(35)">
+          <rect x="0" y="0" width="22" height="3" fill="#2a2a26" rx="0.5"/>
+          <rect x="0" y="0" width="6" height="3" fill="url(#penGrad)"/>
+          <!-- nib -->
+          <polygon points="22,0 28,1.5 22,3" fill="url(#penGrad)"/>
+          <line x1="22" y1="1.5" x2="28" y2="1.5" stroke="#2a2a26" stroke-width="0.3"/>
+        </g>
+        <!-- ink dot at nib touchdown -->
+        <circle cx="68" cy="34.2" r="0.9" fill="#21391f"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">Designed in Montana</span>
+        <span class="brand-tag">Big Sky Businesses</span>
+      </span>
+    </a>
+
+    <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false" id="mobile-toggle">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <nav class="nav" id="main-nav">
+      <a href="/pages/regions.html" data-nav="regions">Regions</a>
+      <a href="/pages/about.html" data-nav="about">About</a>
+      <a href="/pages/requirements.html" data-nav="requirements">Requirements</a>
+      <a href="/pages/contact.html" data-nav="contact">Contact Us</a>
+    </nav>
+
+    <form class="header-search" role="search" action="/pages/search.html" method="get" id="header-search-form">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="search" name="q" placeholder="Search businesses, towns, tags…" aria-label="Search businesses">
+    </form>
+
+  </div>
+</header>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search · Designed in Montana</title>
+  <meta name="description" content="Search Montana businesses by name, county, town, or tag.">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    .search-hero {
+      padding: 70px 0 30px;
+    }
+    .search-bigbar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1px solid rgba(42,42,38,0.12);
+      border-radius: 4px;
+      padding: 14px 20px;
+      gap: 14px;
+      margin-top: 28px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-bigbar:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(59,93,58,0.12);
+    }
+    .search-bigbar svg { width: 20px; height: 20px; color: var(--fg-muted); }
+    .search-bigbar input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: var(--font-body);
+      font-size: 17px;
+      background: transparent;
+      color: var(--fg);
+    }
+    .search-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .filter-pill {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      background: #fff;
+      border: 1px solid rgba(42,42,38,0.12);
+      border-radius: 999px;
+      color: var(--fg);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-pill.active {
+      background: var(--mt-pine-dark);
+      color: var(--mt-snow);
+      border-color: var(--mt-pine-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="site-header-slot"></div>
+
+  <main>
+
+    <section class="search-hero">
+      <div class="container">
+        <div class="eyebrow" style="font-size:12px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent-warm); margin-bottom:14px;">Search the Directory</div>
+        <h1 style="font-family:var(--font-display); font-weight:600; font-size:clamp(36px, 5vw, 56px); letter-spacing:-0.02em; line-height:1.05;">
+          Find a Montana business.
+        </h1>
+
+        <form class="search-bigbar" id="big-search-form" role="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="search" id="big-search-input" name="q" placeholder="Search by name, town, county, or tag…" autocomplete="off" autofocus>
+        </form>
+
+        <div class="search-filters" id="region-filters">
+          <button class="filter-pill" data-region="">All regions</button>
+          <button class="filter-pill" data-region="southwest">Southwest</button>
+          <button class="filter-pill" data-region="central">Central</button>
+          <button class="filter-pill" data-region="missouri-river">Missouri River</button>
+          <button class="filter-pill" data-region="yellowstone">Yellowstone</button>
+          <button class="filter-pill" data-region="southeast">Southeast</button>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top: 30px;">
+      <div class="container">
+        <div class="search-meta" id="search-meta"></div>
+        <div class="business-grid" id="results"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer-slot"></div>
+
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/businesses.js"></script>
+  <script src="/assets/js/business-loader.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const input    = document.getElementById('big-search-input');
+      const filters  = document.getElementById('region-filters');
+      const results  = document.getElementById('results');
+      const meta     = document.getElementById('search-meta');
+
+      // Read query string
+      const params = new URLSearchParams(window.location.search);
+      const initialQ = params.get('q') || '';
+      const initialRegion = params.get('region') || '';
+
+      // Set initial state
+      input.value = initialQ;
+      let currentRegion = initialRegion;
+
+      // Mark active filter pill
+      function syncFilterPills() {
+        filters.querySelectorAll('.filter-pill').forEach(p => {
+          p.classList.toggle('active', p.dataset.region === currentRegion);
+        });
+      }
+      syncFilterPills();
+
+      // Load all business data once
+      const all = await window.MTBiz.loadAllBusinesses();
+
+      // Render function
+      function render() {
+        let pool = all;
+        if (currentRegion) pool = pool.filter(b => b.region === currentRegion);
+        const q = input.value.trim();
+        const filtered = window.MTBiz.filterBusinesses(pool, q);
+
+        // Update meta line
+        const parts = [];
+        if (q) parts.push(`matching "<strong>${q}</strong>"`);
+        if (currentRegion) {
+          const regionLabel = (window.MT_REGIONS_LOOKUP?.[currentRegion]) || currentRegion;
+          parts.push(`in <strong>${regionLabel}</strong>`);
+        }
+        meta.innerHTML = `<strong>${filtered.length}</strong> business${filtered.length === 1 ? '' : 'es'} ${parts.join(' ')}`;
+
+        window.MTBiz.renderCards(results, filtered);
+      }
+
+      // Static region label lookup for the meta line
+      window.MT_REGIONS_LOOKUP = {
+        'southwest':      'Southwest Montana',
+        'central':        'Central Montana',
+        'missouri-river': 'Missouri River Country',
+        'yellowstone':    'Yellowstone Country',
+        'southeast':      'Southeast Montana'
+      };
+
+      input.addEventListener('input', render);
+      document.getElementById('big-search-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        render();
+      });
+      filters.addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-pill');
+        if (!btn) return;
+        currentRegion = btn.dataset.region;
+        syncFilterPills();
+        render();
+      });
+
+      render();
+    });
+  </script>
+
+</body>
+</html>
