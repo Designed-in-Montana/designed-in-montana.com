@@ -1,7 +1,8 @@
-facebook: https://facebook.com/montanastream
-instagram: https://instagram.com/montanastream
-x: https://x.com/montanastream
-threads:
+facebook: https://www.facebook.com/share/1BC7vNkVog/?mibextid=wwXIfr
+instagram: https://www.instagram.com/montanastream.406
+x: https://x.com/montanastream?s=21&t=cOLmaVO51ejoQkEx2Wvrxg
+threads: https://www.threads.com/@montanastream.406
 pinterest:
 reddit:
-tiktok: https://tiktok.com/@montanastream
+tiktok: https://www.tiktok.com/@montanastream
+youtube: https://www.youtube.com/@Montana-Stream
