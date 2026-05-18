@@ -1,7 +1,8 @@
-facebook: https://facebook.com/montanawizard
-instagram: https://instagram.com/montanawizard
-x:
-threads:
+facebook: https://www.facebook.montanawizard.com/
+instagram: https://www.instagram.montanawizard.com/
+x: https://x.montanawizard.com/
+threads: https://www.threads.montanawizard.com/
 pinterest: https://pinterest.com/montanawizard
 reddit:
-tiktok:
+tiktok: https://www.tiktok.montanawizard.com/
+youtube: https://www.youtube.montanawizard.com/
