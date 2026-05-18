@@ -1,5 +1,5 @@
 # contact.txt — fill in what applies, leave others blank
-url: https://mountainwizard.com
+url: https://mountainwizardllc.com
 address: Fairfield, MT 59436
 phone: (406) 402-6461
-email: hello@mountainwizard.com
+email: orders@mountainwizard.com
