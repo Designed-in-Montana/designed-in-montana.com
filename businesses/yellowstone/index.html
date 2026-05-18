@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yellowstone Country · Designed in Montana</title>
-  <meta name="description" content="Browse businesses in Yellowstone Country by county.">
+  <title>Yellowstone · Designed in Montana</title>
+  <meta name="description" content="Browse businesses in Yellowstone by county.">
   <link rel="stylesheet" href="/assets/css/style.css">
   <style>
     .county-link { cursor: pointer; }
@@ -36,6 +36,13 @@
       color: var(--mt-snow);
     }
   </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta property="og:image" content="/assets/images/site/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#21391f">
 </head>
 <body>
 
@@ -45,9 +52,9 @@
 
     <section class="page-header">
       <div class="container">
-        <div class="breadcrumb"><a href="/index.html">Home</a> / <a href="/pages/regions.html">Regions</a> / Yellowstone Country</div>
-        <div class="eyebrow">South Central Montana</div>
-        <h1>Yellowstone Country</h1>
+        <div class="breadcrumb"><a href="/index.html">Home</a> / <a href="/pages/regions.html">Regions</a> / Yellowstone</div>
+        <div class="eyebrow">South Central</div>
+        <h1>Yellowstone</h1>
         <p class="lede">Northern entrance to Yellowstone National Park, Granite Peak, and the city of Billings. Click any county on the map to see its towns and listed businesses.</p>
       </div>
     </section>
@@ -65,7 +72,7 @@
 
     <section>
       <div class="container">
-        <h2 class="section-title">Businesses in Yellowstone Country</h2>
+        <h2 class="section-title">Businesses in Yellowstone</h2>
         <div class="business-grid" id="region-businesses"></div>
       </div>
     </section>
@@ -75,6 +82,7 @@
   <div id="site-footer-slot"></div>
 
   <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/mt-geo-data.js"></script>
   <script src="/assets/js/geography.js"></script>
   <script src="/assets/js/businesses.js"></script>
   <script src="/assets/js/business-loader.js"></script>
