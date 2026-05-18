@@ -1,4 +1,4 @@
 url: https://montanawizard.com
 address: Fairfield, MT 59436
 phone: (406) 402-6461
-email: hello@montanawizard.com
+email: spport@montanawizard.com
