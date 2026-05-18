@@ -1,212 +1,330 @@
 /* =========================================================================
-   Designed in Montana — County & City Geography
+   Designed in Montana — County & City Geography (real geometry)
    ---------------------------------------------------------------------------
-   Stylized county shapes within each region, plus city dot locations.
-   Coordinates are in each map's 1000x600 viewBox — not real lat/lng,
-   but laid out geographically. Edit cities[] inside any county to add
-   labeled dots as you start filling in town pages.
+   buildCountyMap(target, regionId)
+       Renders the region's slice of Montana with each county a clickable
+       polygon, plus the rest of MT in muted tone for context.
+   buildCityMap(target, regionId, countyId)
+       Renders one county filled, with dot markers for known cities.
+
+   Real county boundaries come from window.MT_GEO_DATA (TIGER public-domain
+   data, loaded by mt-geo-data.js). City dot coordinates are still
+   hand-placed — add them inside the county's `cities` array when you
+   create a new town page.
    ========================================================================= */
 
 window.MT_GEOGRAPHY = {
 
-  // -------------- SOUTHWEST (Gold West Country) --------------
+  glacier: {
+    label: 'Glacier',
+    sublabel: 'Glacier Country',
+    color: '#e8c5cc',
+    counties: [
+      { id: 'flathead', label: 'Flathead', cities: [] },
+      { id: 'glacier',  label: 'Glacier',  cities: [] },
+      { id: 'lake',     label: 'Lake',     cities: [] },
+      { id: 'lincoln',  label: 'Lincoln',  cities: [] },
+      { id: 'mineral',  label: 'Mineral',  cities: [] },
+      { id: 'missoula', label: 'Missoula', cities: [] },
+      { id: 'ravalli',  label: 'Ravalli',  cities: [] },
+      { id: 'sanders',  label: 'Sanders',  cities: [] }
+    ]
+  },
+
   southwest: {
     label: 'Southwest Montana',
     sublabel: 'Gold West Country',
-    color: '#3b5d3a',
+    color: '#d4a5b8',
     counties: [
-      { id: 'beaverhead',      label: 'Beaverhead',       points: '60,400 60,560 320,560 340,500 320,440 280,400 220,380 160,380 100,390', cities: [] },
-      { id: 'madison',         label: 'Madison',          points: '320,440 340,500 320,560 460,560 480,500 460,440 420,400 380,400', cities: [] },
-      { id: 'gallatin',        label: 'Gallatin',         points: '460,440 480,500 460,560 620,560 640,500 620,440 580,400 520,400', cities: [] },
-      { id: 'silver-bow',      label: 'Silver Bow',       points: '220,380 280,400 320,400 320,360 280,340 240,340 200,360', cities: [] },
-      { id: 'deer-lodge',      label: 'Deer Lodge',       points: '160,300 240,300 240,340 200,360 160,360 140,340', cities: [] },
-      { id: 'granite',         label: 'Granite',          points: '60,260 160,260 160,300 140,340 100,360 60,340', cities: [] },
-      { id: 'powell',          label: 'Powell',           points: '60,140 240,140 280,180 280,260 240,300 160,300 160,260 60,260', cities: [] },
-      { id: 'lewis-and-clark', label: 'Lewis & Clark',    points: '240,80 460,80 480,180 460,240 380,260 320,240 280,260 280,180 240,140', cities: [] },
-      { id: 'jefferson',       label: 'Jefferson',        points: '280,260 320,240 380,260 420,300 420,360 380,400 320,400 320,360 280,340 280,260', cities: [] },
-      { id: 'broadwater',      label: 'Broadwater',       points: '380,260 460,240 480,180 540,200 540,280 500,320 420,300 380,260', cities: [] }
+      { id: 'beaverhead',      label: 'Beaverhead',    cities: [] },
+      { id: 'broadwater',      label: 'Broadwater',    cities: [] },
+      { id: 'deer-lodge',      label: 'Deer Lodge',    cities: [] },
+      { id: 'gallatin',        label: 'Gallatin',      cities: [] },
+      { id: 'granite',         label: 'Granite',       cities: [] },
+      { id: 'jefferson',       label: 'Jefferson',     cities: [] },
+      { id: 'lewis-and-clark', label: 'Lewis & Clark', cities: [] },
+      { id: 'madison',         label: 'Madison',       cities: [] },
+      { id: 'powell',          label: 'Powell',        cities: [] },
+      { id: 'silver-bow',      label: 'Silver Bow',    cities: [] }
     ]
   },
 
-  // -------------- CENTRAL --------------
   central: {
     label: 'Central Montana',
     sublabel: 'Central Montana',
-    color: '#6b8a4a',
+    color: '#bcd1e8',
     counties: [
-      { id: 'teton',         label: 'Teton',         points: '80,80 240,80 240,200 80,200',
+      { id: 'blaine',        label: 'Blaine',        cities: [] },
+      { id: 'cascade',       label: 'Cascade',       cities: [] },
+      { id: 'chouteau',      label: 'Chouteau',      cities: [] },
+      { id: 'fergus',        label: 'Fergus',        cities: [] },
+      { id: 'golden-valley', label: 'Golden Valley', cities: [] },
+      { id: 'hill',          label: 'Hill',          cities: [] },
+      { id: 'judith-basin',  label: 'Judith Basin',  cities: [] },
+      { id: 'liberty',       label: 'Liberty',       cities: [] },
+      { id: 'meagher',       label: 'Meagher',       cities: [] },
+      { id: 'musselshell',   label: 'Musselshell',   cities: [] },
+      { id: 'petroleum',     label: 'Petroleum',     cities: [] },
+      { id: 'pondera',       label: 'Pondera',       cities: [] },
+      { id: 'teton',         label: 'Teton',
+        // ⬇ Add city dots here. lat/lon are projected to county SVG coords.
         cities: [
-          { id: 'fairfield', label: 'Fairfield', x: 145, y: 150 },
-          { id: 'choteau',   label: 'Choteau',   x: 120, y: 110 },
-          { id: 'dutton',    label: 'Dutton',    x: 200, y: 165 }
-        ] },
-      { id: 'cascade',       label: 'Cascade',       points: '240,80 440,80 440,220 320,240 240,200', cities: [] },
-      { id: 'chouteau',      label: 'Chouteau',      points: '440,80 700,80 700,220 540,220 440,220', cities: [] },
-      { id: 'judith-basin',  label: 'Judith Basin',  points: '440,220 540,220 540,360 440,360',     cities: [] },
-      { id: 'fergus',        label: 'Fergus',        points: '540,220 700,220 700,360 540,360',     cities: [] },
-      { id: 'petroleum',     label: 'Petroleum',     points: '700,220 860,220 860,360 700,360',     cities: [] },
-      { id: 'meagher',       label: 'Meagher',       points: '240,200 320,240 360,360 240,360 240,200', cities: [] },
-      { id: 'wheatland',     label: 'Wheatland',     points: '360,360 440,360 440,500 360,500',     cities: [] },
-      { id: 'golden-valley', label: 'Golden Valley', points: '440,360 540,360 540,500 440,500',     cities: [] },
-      { id: 'musselshell',   label: 'Musselshell',   points: '540,360 700,360 700,500 540,500',     cities: [] }
+          { id: 'fairfield', label: 'Fairfield', lat: 47.6155, lon: -111.9982 },
+          { id: 'choteau',   label: 'Choteau',   lat: 47.8125, lon: -112.1828 },
+          { id: 'dutton',    label: 'Dutton',    lat: 47.8443, lon: -111.7066 }
+        ]
+      },
+      { id: 'toole',         label: 'Toole',         cities: [] },
+      { id: 'wheatland',     label: 'Wheatland',     cities: [] }
     ]
   },
 
-  // -------------- MISSOURI RIVER (Northeast) --------------
   'missouri-river': {
-    label: 'Missouri River Country',
-    sublabel: 'Northeast Plains',
-    color: '#4a6c8c',
+    label: 'Missouri River',
+    sublabel: 'North East',
+    color: '#a3b88f',
     counties: [
-      { id: 'phillips',  label: 'Phillips',  points: '60,80 260,80 260,260 60,260', cities: [] },
-      { id: 'valley',    label: 'Valley',    points: '260,80 480,80 480,260 260,260', cities: [] },
-      { id: 'daniels',   label: 'Daniels',   points: '480,80 640,80 640,180 480,180', cities: [] },
-      { id: 'sheridan',  label: 'Sheridan',  points: '640,80 800,80 800,260 640,260 640,180 480,180 480,260 640,260', cities: [] },
-      { id: 'roosevelt', label: 'Roosevelt', points: '480,260 800,260 800,380 480,380', cities: [] },
-      { id: 'mccone',    label: 'McCone',    points: '260,260 480,260 480,380 260,380', cities: [] },
-      { id: 'garfield',  label: 'Garfield',  points: '60,260 260,260 260,440 60,440', cities: [] },
-      { id: 'richland',  label: 'Richland',  points: '640,380 800,380 800,540 640,540', cities: [] },
-      { id: 'dawson',    label: 'Dawson',    points: '460,380 640,380 640,540 460,540', cities: [] },
-      { id: 'prairie',   label: 'Prairie',   points: '260,440 460,440 460,540 260,540', cities: [] }
+      { id: 'daniels',   label: 'Daniels',   cities: [] },
+      { id: 'dawson',    label: 'Dawson',    cities: [] },
+      { id: 'garfield',  label: 'Garfield',  cities: [] },
+      { id: 'mccone',    label: 'McCone',    cities: [] },
+      { id: 'phillips',  label: 'Phillips',  cities: [] },
+      { id: 'prairie',   label: 'Prairie',   cities: [] },
+      { id: 'richland',  label: 'Richland',  cities: [] },
+      { id: 'roosevelt', label: 'Roosevelt', cities: [] },
+      { id: 'sheridan',  label: 'Sheridan',  cities: [] },
+      { id: 'valley',    label: 'Valley',    cities: [] }
     ]
   },
 
-  // -------------- YELLOWSTONE (South Central) --------------
   yellowstone: {
-    label: 'Yellowstone Country',
-    sublabel: 'South Central Montana',
-    color: '#b06a3b',
+    label: 'Yellowstone',
+    sublabel: 'South Central',
+    color: '#f0e0a8',
     counties: [
-      { id: 'park',        label: 'Park',         points: '60,180 240,180 240,420 60,420', cities: [] },
-      { id: 'sweet-grass', label: 'Sweet Grass',  points: '240,180 400,180 400,400 240,400', cities: [] },
-      { id: 'stillwater',  label: 'Stillwater',   points: '400,180 600,180 600,400 400,400', cities: [] },
-      { id: 'carbon',      label: 'Carbon',       points: '240,400 460,400 460,540 240,540', cities: [] },
-      { id: 'yellowstone', label: 'Yellowstone',  points: '600,180 880,180 880,420 600,420', cities: [] },
-      { id: 'big-horn',    label: 'Big Horn',     points: '460,400 880,420 880,540 460,540', cities: [] }
+      { id: 'big-horn',    label: 'Big Horn',    cities: [] },
+      { id: 'carbon',      label: 'Carbon',      cities: [] },
+      { id: 'park',        label: 'Park',        cities: [] },
+      { id: 'stillwater',  label: 'Stillwater',  cities: [] },
+      { id: 'sweet-grass', label: 'Sweet Grass', cities: [] },
+      { id: 'yellowstone', label: 'Yellowstone', cities: [] }
     ]
   },
 
-  // -------------- SOUTHEAST (Custer Country) --------------
   southeast: {
     label: 'Southeast Montana',
     sublabel: 'Custer Country',
-    color: '#c89545',
+    color: '#f5e1c0',
     counties: [
-      { id: 'rosebud',      label: 'Rosebud',      points: '60,80 320,80 320,360 60,360', cities: [] },
-      { id: 'treasure',     label: 'Treasure',     points: '60,360 220,360 220,500 60,500', cities: [] },
-      { id: 'custer',       label: 'Custer',       points: '320,80 540,80 540,360 320,360', cities: [] },
-      { id: 'powder-river', label: 'Powder River', points: '320,360 540,360 540,540 320,540', cities: [] },
-      { id: 'fallon',       label: 'Fallon',       points: '540,80 720,80 720,260 540,260', cities: [] },
-      { id: 'wibaux',       label: 'Wibaux',       points: '720,80 860,80 860,260 720,260', cities: [] },
-      { id: 'carter',       label: 'Carter',       points: '540,260 860,260 860,540 540,540', cities: [] }
+      { id: 'carter',       label: 'Carter',       cities: [] },
+      { id: 'custer',       label: 'Custer',       cities: [] },
+      { id: 'fallon',       label: 'Fallon',       cities: [] },
+      { id: 'powder-river', label: 'Powder River', cities: [] },
+      { id: 'rosebud',      label: 'Rosebud',      cities: [] },
+      { id: 'treasure',     label: 'Treasure',     cities: [] },
+      { id: 'wibaux',       label: 'Wibaux',       cities: [] }
     ]
   }
-
 };
 
-/**
- * Render a county map for a given region into a target element.
- * Each county is clickable → links to /businesses/<region>/<county>/.
- */
-function buildCountyMap(target, regionId) {
-  const region = window.MT_GEOGRAPHY[regionId];
-  if (!region) {
-    target.innerHTML = '<p style="padding:40px; text-align:center; color:var(--fg-muted);">Region not found.</p>';
-    return;
+/** Compute bounding box of an SVG path's M/L coordinates */
+function _pathBBox(d) {
+  const nums = d.match(/-?\d+(?:\.\d+)?/g) || [];
+  if (nums.length < 2) return null;
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (let i = 0; i < nums.length - 1; i += 2) {
+    const x = parseFloat(nums[i]);
+    const y = parseFloat(nums[i + 1]);
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
   }
-
-  const html = `
-    <svg class="map-svg" viewBox="0 0 920 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Counties in ${region.label}">
-      <defs>
-        <filter id="countyshadow">
-          <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#21391f" flood-opacity="0.12"/>
-        </filter>
-      </defs>
-      <g filter="url(#countyshadow)">
-        ${region.counties.map((c, i) => `
-          <a href="/businesses/${regionId}/${c.id}/" class="county-link">
-            <polygon
-              points="${c.points}"
-              fill="${region.color}"
-              fill-opacity="${0.55 + (i % 4) * 0.1}"
-              stroke="#f5f1e8"
-              stroke-width="2"
-              class="region-shape"/>
-            <text class="region-label"
-                  x="${getCentroid(c.points).x}"
-                  y="${getCentroid(c.points).y}"
-                  font-size="12">${c.label}</text>
-          </a>
-        `).join('')}
-      </g>
-    </svg>
-  `;
-  target.innerHTML = html;
+  return { minX, maxX, minY, maxY };
 }
 
 /**
- * Render a city dots map for a given county into a target element.
+ * Render a county-level map for a given region.
+ * Each county is its own clickable polygon → /businesses/<region>/<county>/
  */
-function buildCityMap(target, regionId, countyId) {
+function buildCountyMap(target, regionId) {
+  if (!window.MT_GEO_DATA) {
+    target.innerHTML = '<p style="padding:40px;text-align:center;color:var(--fg-muted);">Map geometry not loaded.</p>';
+    return;
+  }
   const region = window.MT_GEOGRAPHY[regionId];
   if (!region) {
-    target.innerHTML = '<p style="padding:40px; text-align:center; color:var(--fg-muted);">Region not found.</p>';
+    target.innerHTML = '<p style="padding:40px;text-align:center;color:var(--fg-muted);">Region not found.</p>';
+    return;
+  }
+
+  const { viewBox, counties: allCounties } = window.MT_GEO_DATA;
+  const inRegion = allCounties.filter(c => c.region === regionId);
+
+  // Other counties drawn muted, for context
+  const otherPaths = allCounties
+    .filter(c => c.region !== regionId)
+    .map(c => `<path d="${c.d}" fill="#ebe4d2" stroke="#dcd3bf" stroke-width="0.5" opacity="0.45" pointer-events="none"/>`)
+    .join('');
+
+  // Each region county has its own fill (slight variation for visual interest)
+  // and is its own clickable link
+  const baseColor = region.color;
+  const countyPaths = inRegion.map((c, i) => {
+    const variation = 0.6 + (i % 5) * 0.08;
+    // Adjust label size so the rendered text fits inside the county width.
+    // Approximate text width: characters × (font-size × 0.55 for serif caps mixed)
+    const bb = _pathBBox(c.d);
+    const w = bb.maxX - bb.minX;
+    const charW = 0.55;
+    const maxFs = 10;
+    const minFs = 4.5;
+    // size so that name fits within ~85% of county width
+    const idealFs = (w * 0.85) / (c.name.length * charW);
+    const fs = Math.max(minFs, Math.min(maxFs, idealFs));
+    return `
+      <a href="/businesses/${regionId}/${c.slug}/" class="county-link" data-county="${c.slug}">
+        <path d="${c.d}"
+              fill="${baseColor}"
+              fill-opacity="${variation.toFixed(2)}"
+              stroke="#f5f1e8"
+              stroke-width="1"
+              class="county-shape"/>
+        <text x="${c.cx}" y="${c.cy}"
+              text-anchor="middle"
+              font-family="Fraunces, serif" font-size="${fs.toFixed(2)}" font-weight="600"
+              fill="#ffffff" pointer-events="none"
+              style="paint-order: stroke; stroke: rgba(33,57,31,0.5); stroke-width: ${(fs * 0.18).toFixed(2)}px; stroke-linejoin: round;">${c.name}</text>
+      </a>
+    `;
+  }).join('');
+
+  target.innerHTML = `
+    <svg class="map-svg" viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Counties in ${region.label}">
+      <defs>
+        <filter id="countyshadow"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#21391f" flood-opacity="0.12"/></filter>
+        <style>
+          .county-link { cursor: pointer; }
+          .county-link:hover .county-shape { fill-opacity: 1; }
+        </style>
+      </defs>
+      <g filter="url(#countyshadow)">${otherPaths}</g>
+      <g filter="url(#countyshadow)">${countyPaths}</g>
+    </svg>
+  `;
+}
+
+/**
+ * Project a lat/lon coordinate into the global MT SVG coordinate system.
+ * Mirrors the projection used by the geo-data generator:
+ * lon ∈ [-116.051, -104.041], lat ∈ [44.358, 49.001]
+ * viewBox 1000×540, padding 30, cos(mid_lat) horizontal correction.
+ */
+const _PROJ = {
+  lonMin: -116.051, lonMax: -104.041,
+  latMin: 44.358,   latMax: 49.001,
+  vbW: 1000, vbH: 540, padding: 30
+};
+function _projectLatLon(lat, lon) {
+  const midLat = (_PROJ.latMin + _PROJ.latMax) / 2;
+  const cosLat = Math.cos(midLat * Math.PI / 180);
+  const adjLonRange = (_PROJ.lonMax - _PROJ.lonMin) * cosLat;
+  const adjLatRange = (_PROJ.latMax - _PROJ.latMin);
+  const innerW = _PROJ.vbW - _PROJ.padding * 2;
+  const innerH = _PROJ.vbH - _PROJ.padding * 2;
+  const scale = Math.min(innerW / adjLonRange, innerH / adjLatRange);
+  const projW = adjLonRange * scale;
+  const projH = adjLatRange * scale;
+  const offsetX = _PROJ.padding + (innerW - projW) / 2;
+  const offsetY = _PROJ.padding + (innerH - projH) / 2;
+  return {
+    x: offsetX + (lon - _PROJ.lonMin) * cosLat * scale,
+    y: offsetY + (_PROJ.latMax - lat) * scale
+  };
+}
+
+/**
+ * Render a single-county map zoomed in, with city dot markers.
+ */
+function buildCityMap(target, regionId, countyId) {
+  if (!window.MT_GEO_DATA) {
+    target.innerHTML = '<p style="padding:40px;text-align:center;color:var(--fg-muted);">Map geometry not loaded.</p>';
+    return;
+  }
+  const region = window.MT_GEOGRAPHY[regionId];
+  if (!region) {
+    target.innerHTML = '<p style="padding:40px;text-align:center;color:var(--fg-muted);">Region not found.</p>';
     return;
   }
   const county = region.counties.find(c => c.id === countyId);
   if (!county) {
-    target.innerHTML = '<p style="padding:40px; text-align:center; color:var(--fg-muted);">County not found.</p>';
+    target.innerHTML = '<p style="padding:40px;text-align:center;color:var(--fg-muted);">County not found.</p>';
+    return;
+  }
+  const geoCounty = window.MT_GEO_DATA.counties.find(c => c.slug === countyId);
+  if (!geoCounty) {
+    target.innerHTML = '<p style="padding:40px;text-align:center;color:var(--fg-muted);">Geometry missing.</p>';
     return;
   }
 
-  // Compute county bounding box so we can fill the SVG
-  const pts = county.points.split(/\s+/).map(p => p.split(',').map(Number));
-  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
-  const minX = Math.min(...xs), maxX = Math.max(...xs);
-  const minY = Math.min(...ys), maxY = Math.max(...ys);
+  // Zoom viewBox to this county
+  const bbox = _pathBBox(geoCounty.d);
+  const pad = 20;
+  const topPad = 35; // extra room above for the county title
+  const vbX = bbox.minX - pad;
+  const vbY = bbox.minY - topPad;
+  const vbW = (bbox.maxX - bbox.minX) + pad * 2;
+  const vbH = (bbox.maxY - bbox.minY) + topPad + pad;
 
-  const cityDots = (county.cities || []).map(city => `
-    <a href="/businesses/${regionId}/${countyId}/${city.id}/" class="city-link">
-      <circle cx="${city.x}" cy="${city.y}" r="7" fill="#c89545" stroke="#f5f1e8" stroke-width="2"/>
-      <circle cx="${city.x}" cy="${city.y}" r="14" fill="#c89545" fill-opacity="0.15"/>
-      <text x="${city.x}" y="${city.y - 16}"
-            text-anchor="middle"
-            font-family="Fraunces, serif" font-size="13" font-weight="600"
-            fill="#2a2a26">${city.label}</text>
-    </a>
-  `).join('');
+  const cityMarkup = (county.cities || []).map(city => {
+    const { x, y } = _projectLatLon(city.lat, city.lon);
+    // Dot/text sizing — county-zoom viewBox is small (~20-80 units) so the
+    // SVG renders text at large effective px. Use small numeric values.
+    const r1 = Math.max(1.5, vbW * 0.014);
+    const r2 = Math.max(4, vbW * 0.035);
+    const sw = Math.max(0.5, vbW * 0.005);
+    const fs = Math.max(3, vbW * 0.025);
+    return `
+      <a href="/businesses/${regionId}/${countyId}/${city.id}/" class="city-link">
+        <circle cx="${x}" cy="${y}" r="${r2}" fill="#c89545" fill-opacity="0.15"/>
+        <circle cx="${x}" cy="${y}" r="${r1}" fill="#c89545" stroke="#f5f1e8" stroke-width="${sw}"/>
+        <text x="${x}" y="${y - r2 - fs * 0.2}"
+              text-anchor="middle"
+              font-family="Fraunces, serif" font-size="${fs}" font-weight="600"
+              fill="#2a2a26">${city.label}</text>
+      </a>
+    `;
+  }).join('');
 
-  const empty = (county.cities || []).length === 0;
+  const empty = !(county.cities || []).length;
+  const titleX = bbox.minX + (bbox.maxX - bbox.minX) / 2;
+  // Position title ABOVE the county polygon (in the padding zone) so it never gets clipped by the shape
+  const titleY = bbox.minY - Math.max(4, vbH * 0.025);
+  const titleSize = Math.max(2.5, vbW * 0.028);
 
   target.innerHTML = `
-    <svg class="map-svg" viewBox="${minX - 30} ${minY - 30} ${(maxX - minX) + 60} ${(maxY - minY) + 60}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cities in ${county.label} County">
+    <svg class="map-svg" viewBox="${vbX} ${vbY} ${vbW} ${vbH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cities in ${county.label} County">
       <defs>
-        <filter id="cityshadow">
-          <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#21391f" flood-opacity="0.12"/>
-        </filter>
+        <filter id="cityshadow"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#21391f" flood-opacity="0.15"/></filter>
+        <style>
+          .city-link { cursor: pointer; }
+          .city-link:hover circle:first-of-type { fill: #b06a3b; }
+        </style>
       </defs>
+      <text x="${titleX}" y="${titleY}"
+            text-anchor="middle"
+            font-family="Fraunces, serif" font-size="${titleSize}" font-weight="700"
+            fill="#21391f" letter-spacing="0.08em">${county.label.toUpperCase()} COUNTY</text>
       <g filter="url(#cityshadow)">
-        <polygon points="${county.points}" fill="${region.color}" fill-opacity="0.6" stroke="#f5f1e8" stroke-width="2"/>
-        <text x="${(minX + maxX) / 2}" y="${minY + 18}" text-anchor="middle"
-              font-family="Fraunces, serif" font-size="14" font-weight="600" fill="#f5f1e8" letter-spacing="0.05em">
-          ${county.label.toUpperCase()} COUNTY
-        </text>
+        <path d="${geoCounty.d}" fill="${region.color}" fill-opacity="0.75" stroke="#f5f1e8" stroke-width="${Math.max(1.5, vbW * 0.005)}"/>
       </g>
-      ${cityDots}
-      ${empty ? `<text x="${(minX + maxX) / 2}" y="${(minY + maxY) / 2 + 10}" text-anchor="middle"
-                  font-family="Inter Tight, sans-serif" font-size="13" fill="rgba(245,241,232,0.85)">
-                  Cities coming soon
-                </text>` : ''}
+      ${cityMarkup}
+      ${empty ? `<text x="${titleX}" y="${bbox.minY + (bbox.maxY-bbox.minY)/2 + 2}"
+                  text-anchor="middle"
+                  font-family="Inter Tight, sans-serif" font-size="${Math.max(2.5, vbW * 0.022)}"
+                  fill="rgba(245,241,232,0.85)">Cities coming soon</text>` : ''}
     </svg>
   `;
-}
-
-/** Naive centroid for label placement */
-function getCentroid(points) {
-  const pts = points.split(/\s+/).map(p => p.split(',').map(Number));
-  const x = pts.reduce((s, p) => s + p[0], 0) / pts.length;
-  const y = pts.reduce((s, p) => s + p[1], 0) / pts.length;
-  return { x, y: y + 4 };
 }
 
 window.buildCountyMap = buildCountyMap;

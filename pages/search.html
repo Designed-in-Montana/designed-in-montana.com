@@ -59,6 +59,13 @@
       border-color: var(--mt-pine-dark);
     }
   </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta property="og:image" content="/assets/images/site/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#21391f">
 </head>
 <body>
 
@@ -83,6 +90,7 @@
 
         <div class="search-filters" id="region-filters">
           <button class="filter-pill" data-region="">All regions</button>
+          <button class="filter-pill" data-region="glacier">Glacier</button>
           <button class="filter-pill" data-region="southwest">Southwest</button>
           <button class="filter-pill" data-region="central">Central</button>
           <button class="filter-pill" data-region="missouri-river">Missouri River</button>
@@ -154,10 +162,11 @@
 
       // Static region label lookup for the meta line
       window.MT_REGIONS_LOOKUP = {
+        'glacier':        'Glacier Country',
         'southwest':      'Southwest Montana',
         'central':        'Central Montana',
-        'missouri-river': 'Missouri River Country',
-        'yellowstone':    'Yellowstone Country',
+        'missouri-river': 'Missouri River — North East',
+        'yellowstone':    'Yellowstone — South Central',
         'southeast':      'Southeast Montana'
       };
 

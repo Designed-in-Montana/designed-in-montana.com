@@ -414,22 +414,31 @@ section { padding: 70px 0; }
 
 .region-label {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 13px;
-  fill: var(--mt-snow);
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: 14px;
+  fill: #ffffff;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   pointer-events: none;
   text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgba(33, 57, 31, 0.45);
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
 }
 .region-sub {
   font-family: var(--font-body);
+  font-weight: 500;
   font-size: 9.5px;
-  fill: rgba(245,241,232,0.8);
-  letter-spacing: 0.08em;
+  fill: rgba(255,255,255,0.95);
+  letter-spacing: 0.1em;
   pointer-events: none;
   text-anchor: middle;
   text-transform: uppercase;
+  paint-order: stroke;
+  stroke: rgba(33, 57, 31, 0.35);
+  stroke-width: 2px;
+  stroke-linejoin: round;
 }
 
 .region-info {

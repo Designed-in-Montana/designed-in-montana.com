@@ -4,8 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regions · Designed in Montana</title>
-  <meta name="description" content="Browse Montana businesses by region — Southwest, Central, Missouri River, Yellowstone, and Southeast.">
+  <meta name="description" content="Browse Montana businesses by region — Glacier, Southwest, Central, Missouri River, Yellowstone, and Southeast.">
   <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta property="og:image" content="/assets/images/site/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#21391f">
 </head>
 <body>
 
@@ -16,7 +23,7 @@
     <section class="page-header">
       <div class="container">
         <div class="eyebrow">Explore by Region</div>
-        <h1>Five regions across the Treasure State.</h1>
+        <h1>Six regions across the Treasure State.</h1>
         <p class="lede">Click any region on the map below to browse its businesses. Each region holds its own counties, towns, and stories.</p>
       </div>
     </section>
@@ -28,7 +35,7 @@
           <div class="region-info" id="region-info">
             <div class="region-info-eyebrow">Pick a region</div>
             <h3>Hover or click to learn more</h3>
-            <p>Montana's five tourism regions each have their own character, from the mining country of the Southwest to the badlands of Custer Country.</p>
+            <p>Montana's six tourism regions each have their own character, from the mining country of the Southwest to the badlands of Custer Country.</p>
           </div>
         </div>
       </div>
@@ -36,8 +43,16 @@
 
     <section>
       <div class="container">
-        <h2 class="section-title">All five at a glance</h2>
+        <h2 class="section-title">All six at a glance</h2>
         <div class="region-quicklinks" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+
+          <a href="/pages/search.html?region=glacier">
+            <div>
+              <div style="font-family:var(--font-display); font-weight:600; font-size:17px; margin-bottom:4px;">Glacier</div>
+              <div style="font-size:12px; color:var(--fg-muted); text-transform:uppercase; letter-spacing:0.12em;">Glacier Country</div>
+            </div>
+            <span>→</span>
+          </a>
 
           <a href="/pages/search.html?region=southwest">
             <div>
@@ -58,7 +73,7 @@
           <a href="/pages/search.html?region=missouri-river">
             <div>
               <div style="font-family:var(--font-display); font-weight:600; font-size:17px; margin-bottom:4px;">Missouri River</div>
-              <div style="font-size:12px; color:var(--fg-muted); text-transform:uppercase; letter-spacing:0.12em;">Missouri River Country</div>
+              <div style="font-size:12px; color:var(--fg-muted); text-transform:uppercase; letter-spacing:0.12em;">North East</div>
             </div>
             <span>→</span>
           </a>
@@ -66,7 +81,7 @@
           <a href="/pages/search.html?region=yellowstone">
             <div>
               <div style="font-family:var(--font-display); font-weight:600; font-size:17px; margin-bottom:4px;">Yellowstone</div>
-              <div style="font-size:12px; color:var(--fg-muted); text-transform:uppercase; letter-spacing:0.12em;">Yellowstone Country</div>
+              <div style="font-size:12px; color:var(--fg-muted); text-transform:uppercase; letter-spacing:0.12em;">South Central</div>
             </div>
             <span>→</span>
           </a>
@@ -88,6 +103,7 @@
   <div id="site-footer-slot"></div>
 
   <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/mt-geo-data.js"></script>
   <script src="/assets/js/region-map.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {

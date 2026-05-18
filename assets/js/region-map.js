@@ -1,118 +1,147 @@
 /* =========================================================================
-   Designed in Montana — Region Map
+   Designed in Montana — Region Map (real Montana geometry)
    ---------------------------------------------------------------------------
-   Builds an interactive SVG map of Montana divided into its 5 tourism
-   regions. Hovering / clicking a region surfaces details + a quick search
-   link that opens the search page filtered to that region.
+   Uses real county boundaries from US Census TIGER (loaded from
+   mt-geo-data.js). The 6 regions are drawn by grouping counties that
+   belong to each region with a shared fill color. All 56 counties are now assigned. (Counties outside our
+   region would be drawn in a muted tone to preserve the state shape.
    ========================================================================= */
 
 window.MT_REGIONS = [
   {
+    id: 'glacier',
+    label: 'Glacier',
+    sublabel: 'Glacier Country',
+    color: '#e8c5cc',
+    description: 'Montana\'s northwest corner — anchored by Glacier National Park, Flathead Lake, the Bitterroot and Flathead valleys, and the Crown of the Continent.'
+  },
+  {
     id: 'southwest',
     label: 'Southwest',
     sublabel: 'Gold West Country',
-    color: '#3b5d3a',
-    description: 'Historic mining towns, the Continental Divide, and cities like Butte, Helena, and Bozeman.',
-    // polygon points in a 1000x520 viewBox
-    points: '40,260 40,505 360,505 380,470 395,440 380,400 360,360 350,310 340,260 320,230 290,230 260,250 220,250 180,235 140,240 100,250'
+    color: '#d4a5b8',
+    description: 'Historic mining towns, the Continental Divide, and cities like Butte, Helena, and Bozeman.'
   },
   {
     id: 'central',
     label: 'Central',
     sublabel: 'Central Montana',
-    color: '#6b8a4a',
-    description: 'A transition zone of prairies, island mountain ranges, and agriculture centered around the Lewistown area.',
-    points: '100,250 140,240 180,235 220,250 260,250 290,230 320,230 340,260 350,310 360,360 380,400 395,440 460,440 540,430 580,400 600,360 615,310 610,260 600,210 590,170 560,150 520,150 480,140 440,140 400,135 360,140 320,160 280,170 240,190 200,210 160,225 130,240'
+    color: '#bcd1e8',
+    description: 'A wide band across the heart of the state — prairies, island mountain ranges, agriculture, and the Lewistown area.'
   },
   {
     id: 'missouri-river',
     label: 'Missouri River',
-    sublabel: 'Missouri River Country',
-    color: '#4a6c8c',
-    description: 'Vast plains in the northeast, the Charles M. Russell National Wildlife Refuge, and Fort Peck Reservoir.',
-    points: '600,210 590,170 560,150 520,150 480,140 440,140 400,135 360,140 320,160 280,170 280,40 960,40 960,180 960,260 940,290 910,300 870,290 830,280 790,275 750,265 720,250 690,235 660,225 630,215'
+    sublabel: 'North East',
+    color: '#a3b88f',
+    description: 'Vast plains in the northeast, the Charles M. Russell National Wildlife Refuge, and Fort Peck Reservoir.'
   },
   {
     id: 'yellowstone',
     label: 'Yellowstone',
-    sublabel: 'Yellowstone Country',
-    color: '#b06a3b',
-    description: 'Northern gateway to Yellowstone National Park, rugged ranges including Granite Peak, and the city of Billings.',
-    points: '380,400 395,440 460,440 540,430 580,400 600,360 615,310 610,260 600,210 630,215 660,225 690,235 720,250 720,400 700,440 680,470 650,500 600,505 550,505 500,505 460,505 420,505 380,505 380,470 395,440'
+    sublabel: 'South Central',
+    color: '#f0e0a8',
+    description: 'Northern gateway to Yellowstone National Park, rugged ranges including Granite Peak, and the city of Billings.'
   },
   {
     id: 'southeast',
     label: 'Southeast',
     sublabel: 'Custer Country',
-    color: '#c89545',
-    description: 'Rolling badlands and prairies, home to historical sites like Little Bighorn Battlefield National Monument.',
-    points: '720,250 750,265 790,275 830,280 870,290 910,300 940,290 960,260 960,505 920,505 880,505 840,505 800,505 760,505 720,505 680,505 650,500 680,470 700,440 720,400'
+    color: '#f5e1c0',
+    description: 'Rolling badlands and prairies, home to historical sites like Little Bighorn Battlefield National Monument.'
   }
 ];
 
 /**
- * Build the interactive SVG into `target` (an element).
- * Pass an `onSelect(regionId)` callback to handle clicks.
+ * Label anchor points for each region (in 1000x540 viewBox).
+ * Pre-tuned so labels sit on the visual center of each region.
+ */
+const REGION_LABEL_ANCHORS = {
+  'glacier':        { x: 175, y: 175, sublabel_y: 191 },
+  'southwest':      { x: 340, y: 400, sublabel_y: 416 },
+  'central':        { x: 470, y: 145, sublabel_y: 161 },
+  'missouri-river': { x: 790, y: 130, sublabel_y: 146 },
+  'yellowstone':    { x: 540, y: 400, sublabel_y: 416 },
+  'southeast':      { x: 825, y: 340, sublabel_y: 356 }
+};
+
+/**
+ * Build the interactive region map into `target`.
+ * Options: onHover(region), onSelect(regionId), showLabels, selectedId
  */
 function buildRegionMap(target, options = {}) {
   const {
+    onHover = null,
     onSelect = null,
     showLabels = true,
     selectedId = null
   } = options;
 
-  const svg = `
-    <svg class="map-svg" viewBox="0 0 1000 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of Montana regions">
+  if (!window.MT_GEO_DATA) {
+    target.innerHTML = '<p style="padding:40px;color:var(--fg-muted);text-align:center;">Map geometry not loaded.</p>';
+    return;
+  }
+
+  const { viewBox, counties } = window.MT_GEO_DATA;
+
+  // Since all 56 counties are now assigned to one of 6 regions, no orphans remain.
+  // (Kept this hook just in case future data has unassigned counties.)
+  const otherPaths = counties
+    .filter(c => !c.region)
+    .map(c => `<path d="${c.d}" fill="#dcd3bf" stroke="#c8bea6" stroke-width="0.4" opacity="0.7" pointer-events="none"/>`)
+    .join('');
+
+  // Each region renders as a solid block. We dilate the region fill very
+  // slightly via a thicker fill-colored stroke on every county, which makes
+  // the white seams between same-region counties disappear visually — only
+  // borders between *different* regions remain visible.
+  const regionGroups = window.MT_REGIONS.map(region => {
+    const regCounties = counties.filter(c => c.region === region.id);
+    const isActive = selectedId === region.id;
+    const paths = regCounties
+      .map(c => `<path d="${c.d}"/>`)
+      .join('');
+    return `
+      <g class="region-group ${isActive ? 'active' : ''}"
+         data-region="${region.id}"
+         fill="${region.color}"
+         stroke="${region.color}"
+         stroke-width="1.5"
+         stroke-linejoin="round"
+         style="cursor: pointer; transition: filter .25s var(--ease);">
+        ${paths}
+      </g>
+    `;
+  }).join('');
+
+  // Region labels (Fraunces, big, with subtitle below)
+  let labelMarkup = '';
+  if (showLabels) {
+    labelMarkup = window.MT_REGIONS.map(r => {
+      const a = REGION_LABEL_ANCHORS[r.id];
+      if (!a) return '';
+      return `
+        <g pointer-events="none">
+          <text class="region-label" x="${a.x}" y="${a.y}">${r.label}</text>
+          <text class="region-sub"   x="${a.x}" y="${a.sublabel_y}">${r.sublabel}</text>
+        </g>
+      `;
+    }).join('');
+  }
+
+  target.innerHTML = `
+    <svg class="map-svg" viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of Montana regions">
       <defs>
         <filter id="mtshadow" x="-5%" y="-5%" width="110%" height="115%">
-          <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#21391f" flood-opacity="0.18"/>
+          <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#21391f" flood-opacity="0.15"/>
         </filter>
-        <pattern id="mtgrain" width="3" height="3" patternUnits="userSpaceOnUse">
-          <rect width="3" height="3" fill="transparent"/>
-          <circle cx="1.5" cy="1.5" r="0.3" fill="rgba(255,255,255,0.12)"/>
-        </pattern>
       </defs>
-
-      <!-- Subtle backdrop frame -->
-      <rect x="20" y="20" width="960" height="500" fill="none" stroke="rgba(42,42,38,0.08)" stroke-dasharray="3 4"/>
-
+      <rect x="20" y="20" width="960" height="500" fill="none" stroke="rgba(42,42,38,0.06)" stroke-dasharray="3 4"/>
       <g filter="url(#mtshadow)">
-        ${window.MT_REGIONS.map(r => `
-          <g class="region-group" data-region="${r.id}">
-            <polygon class="region-shape ${selectedId === r.id ? 'active' : ''}"
-                     points="${r.points}"
-                     fill="${r.color}"
-                     data-region="${r.id}"/>
-            <polygon points="${r.points}" fill="url(#mtgrain)" pointer-events="none"/>
-          </g>
-        `).join('')}
+        ${otherPaths}
+        ${regionGroups}
       </g>
-
-      ${showLabels ? `
-        <g pointer-events="none">
-          <!-- Southwest -->
-          <text class="region-label" x="200" y="385">Southwest</text>
-          <text class="region-sub"   x="200" y="402">Gold West Country</text>
-
-          <!-- Central -->
-          <text class="region-label" x="370" y="290">Central</text>
-          <text class="region-sub"   x="370" y="307">Central Montana</text>
-
-          <!-- Missouri River -->
-          <text class="region-label" x="620" y="140">Missouri River</text>
-          <text class="region-sub"   x="620" y="157">Missouri River Country</text>
-
-          <!-- Yellowstone -->
-          <text class="region-label" x="555" y="465">Yellowstone</text>
-          <text class="region-sub"   x="555" y="482">Yellowstone Country</text>
-
-          <!-- Southeast -->
-          <text class="region-label" x="840" y="400">Southeast</text>
-          <text class="region-sub"   x="840" y="417">Custer Country</text>
-        </g>
-      ` : ''}
-
-      <!-- Compass rose -->
+      ${labelMarkup}
       <g transform="translate(940, 60)" pointer-events="none" opacity="0.55">
         <circle r="22" fill="none" stroke="rgba(42,42,38,0.25)" stroke-width="0.8"/>
         <path d="M 0 -18 L 4 0 L 0 18 L -4 0 Z" fill="#2a2a26"/>
@@ -122,18 +151,19 @@ function buildRegionMap(target, options = {}) {
     </svg>
   `;
 
-  target.innerHTML = svg;
-
-  // Wire up clicks/hovers
-  target.querySelectorAll('.region-shape').forEach(shape => {
-    shape.addEventListener('click', () => {
-      const id = shape.dataset.region;
-      if (onSelect) onSelect(id);
+  target.querySelectorAll('.region-group').forEach(g => {
+    g.addEventListener('mouseenter', () => {
+      g.style.filter = 'brightness(1.12)';
+      if (onHover) {
+        const region = window.MT_REGIONS.find(r => r.id === g.dataset.region);
+        if (region) onHover(region);
+      }
     });
-    shape.addEventListener('mouseenter', () => {
-      const id = shape.dataset.region;
-      const region = window.MT_REGIONS.find(r => r.id === id);
-      if (region && options.onHover) options.onHover(region);
+    g.addEventListener('mouseleave', () => {
+      g.style.filter = '';
+    });
+    g.addEventListener('click', () => {
+      if (onSelect) onSelect(g.dataset.region);
     });
   });
 }
