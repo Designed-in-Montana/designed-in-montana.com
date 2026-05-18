@@ -1,0 +1,95 @@
+# =========================================================================
+# robots.txt for designed-in-montana.com
+# A Montana small-business directory and backlink hub.
+# All search engines and AI/LLM crawlers are welcome — the entire point of
+# this site is discoverability for the businesses listed.
+# =========================================================================
+
+# Default rules for all bots
+User-agent: *
+Allow: /
+
+# Don't crawl include partials (they only render as fragments) or the JSON
+# manifest, which doesn't make sense to index on its own.
+Disallow: /includes/
+Disallow: /assets/js/businesses.js
+
+# Allow common AI / LLM crawlers explicitly (some honor named user-agents
+# even when default rules allow them — this makes the welcome unambiguous)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: ImagesiftBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: PetalBot
+Allow: /
+
+User-agent: Timpibot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Be courteous to overzealous crawlers
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://www.designed-in-montana.com/sitemap.xml

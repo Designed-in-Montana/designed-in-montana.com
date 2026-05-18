@@ -1,0 +1,21 @@
+# =========================================================================
+# ads.txt for designed-in-montana.com
+# Conforms to IAB Tech Lab ads.txt Specification v1.1
+# =========================================================================
+#
+# Designed in Montana does not run programmatic advertising.
+# No advertising system is authorized to buy or sell ad inventory on
+# this site. The placeholder record below is the IAB-recommended way
+# to signal this explicitly (rather than leaving the file empty or
+# returning a 404).
+#
+# For sponsorship or business listing inquiries:
+#   email: support@designed-in-montana.com
+#   phone: (406) 402-6461
+#
+# =========================================================================
+
+CONTACT=support@designed-in-montana.com
+OWNERDOMAIN=designed-in-montana.com
+
+placeholder.example.com, placeholder, DIRECT, placeholder

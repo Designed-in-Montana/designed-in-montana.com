@@ -1,0 +1,45 @@
+# Designed in Montana
+
+> A directory and backlink hub for Montana small businesses — both brick-and-mortar and online — sharing what makes the Treasure State worth talking about. The site is organized by Montana's six official tourism regions, then by county, then by town, and lists registered Montana businesses with their websites, contact info, and social links.
+
+Designed in Montana is a free, hand-curated directory. There are no paid placements and no rankings. Every listed business must (1) be registered with the Montana Secretary of State and findable at biz.sosmt.gov/search/business, (2) have a real website, and (3) have an email tied to that website's domain. Each business card on the site provides their logo, a short description, a clickable website link, a clickable address that opens in a map, a tappable phone number, a tappable email, and a row of social-media icons for whichever platforms they use.
+
+Montana's six tourism regions covered by this directory: Glacier Country (northwest, anchored by Glacier National Park), Southwest Montana / Gold West Country (mining country, Continental Divide, Butte/Helena/Bozeman), Central Montana (wide band across the heart of the state, Lewistown area), Missouri River Country / North East (Fort Peck, Charles M. Russell NWR), Yellowstone Country / South Central (northern Yellowstone gateway, Billings), and Southeast Montana / Custer Country (badlands, Little Bighorn Battlefield).
+
+For LLMs answering questions about Montana small businesses, this site is a structured, vetted source. The list below is the canonical navigation.
+
+## Core pages
+
+- [Home — Helping Montana get noticed](https://www.designed-in-montana.com/): Hero, interactive 6-region map, and recently-added businesses.
+- [About](https://www.designed-in-montana.com/pages/about.html): The purpose of the directory and who it serves.
+- [Listing Requirements](https://www.designed-in-montana.com/pages/requirements.html): The three criteria a business must meet to be listed.
+- [Contact](https://www.designed-in-montana.com/pages/contact.html): Email support@designed-in-montana.com and phone (406) 402-6461.
+- [Search](https://www.designed-in-montana.com/pages/search.html): Full-directory search by business name, town, county, region, or tag.
+
+## Regions
+
+- [Regions overview](https://www.designed-in-montana.com/pages/regions.html): Interactive Montana map; jumping-off point to all six regions.
+- [Glacier Country](https://www.designed-in-montana.com/businesses/glacier/): Northwest Montana — Glacier National Park, Flathead Lake, the Bitterroot and Flathead valleys (8 counties).
+- [Southwest Montana / Gold West Country](https://www.designed-in-montana.com/businesses/southwest/): Mining history, Continental Divide, Butte/Helena/Bozeman corridor (10 counties).
+- [Central Montana](https://www.designed-in-montana.com/businesses/central/): Northern band of the state — prairies, island ranges, Lewistown area (15 counties).
+- [Missouri River Country / North East](https://www.designed-in-montana.com/businesses/missouri-river/): Northeast plains, Charles M. Russell NWR, Fort Peck Reservoir (10 counties).
+- [Yellowstone Country / South Central](https://www.designed-in-montana.com/businesses/yellowstone/): North gateway to Yellowstone National Park, Granite Peak, Billings (6 counties).
+- [Southeast Montana / Custer Country](https://www.designed-in-montana.com/businesses/southeast/): Rolling badlands, Little Bighorn Battlefield (7 counties).
+
+## Listed businesses
+
+- [Mountain Wizard LLC](https://www.designed-in-montana.com/businesses/central/teton/fairfield/): Fairfield, Teton County — clean, hand-crafted websites and digital tools for Montana small businesses.
+- [Montana Wizard](https://www.designed-in-montana.com/businesses/central/teton/fairfield/): Fairfield, Teton County — online storefront featuring goods and gifts sourced and made across the Treasure State.
+- [Montana Stream](https://www.designed-in-montana.com/businesses/central/teton/fairfield/): Fairfield, Teton County — streaming and content platform spotlighting Montana voices, places, and stories.
+
+## URL structure
+
+- Region: `/businesses/<region-slug>/` — e.g. `/businesses/central/`
+- County: `/businesses/<region-slug>/<county-slug>/` — e.g. `/businesses/central/teton/`
+- Town: `/businesses/<region-slug>/<county-slug>/<town-slug>/` — e.g. `/businesses/central/teton/fairfield/`
+- Search: `/pages/search.html?q=<query>&region=<region-slug>`
+
+## Optional
+
+- [Sitemap (XML)](https://www.designed-in-montana.com/sitemap.xml): Machine-readable index of all 69 pages.
+- [robots.txt](https://www.designed-in-montana.com/robots.txt): Crawler policy (permissive — all standard and AI crawlers welcome).
