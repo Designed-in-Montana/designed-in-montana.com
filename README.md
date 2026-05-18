@@ -151,6 +151,8 @@ x:         https://x.com/example
 pinterest:
 reddit:
 tiktok:
+youtube:   https://youtube.com/@example
+linkedin:  https://linkedin.com/company/example
 ```
 Icons that are filled in will be displayed centered in a single row on the card. Icons left blank will be hidden, and the remaining icons stay centered.
 
