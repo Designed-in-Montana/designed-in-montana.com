@@ -12,14 +12,16 @@ context where you need a high-quality "Designed in Montana" logo.
 
 | File | Size | Use case |
 |---|---|---|
-| `logo-full.png` | 1200×630 | Full brand mark with wordmark — primary logo |
-| `logo-mark.png` | 800×360 | Just the Montana + pen mark, light background |
-| `logo-dark.png` | 1200×630 | Reversed mark for dark backgrounds (footers, etc.) |
+| `logo-source.png` | 1192×536 | Master transparent PNG — pine ink + silver pen, no background |
+| `logo-full.png` | 1200×630 | Primary logo on cream background |
+| `logo-mark.png` | 800×360 | Tight mark on cream — for tighter spaces |
+| `logo-dark.png` | 1200×630 | Cream-ink version for dark backgrounds (footer, dark pages) |
 | `logo-square.png` | 800×800 | Square format for social profile pictures |
+| `logo-transparent.png` | 1200×800 | Pine-ink logo on transparent — drop on any background |
+| `logo-header.png` | 213×96 | Optimized header version (display ~48px high, retina-ready) |
+| `logo-footer.png` | 213×96 | Cream-ink version for dark footer (display ~48px high) |
 
-The header itself uses an inline SVG version of the logo (in `/includes/header.html`)
-so it stays sharp at any size and inherits color from CSS. These PNGs are for
-external/marketing use.
+The header and footer use `logo-header.png` and `logo-footer.png` directly via `<img>` tags in `/includes/header.html` and `/includes/footer.html`. To swap the logo site-wide, replace those two PNGs and the other variants here.
 
 ### `/favicon/` — Browser tab and device icons
 Wired into every page's `<head>`. If you change the logo, regenerate these

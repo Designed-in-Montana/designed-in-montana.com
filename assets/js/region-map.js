@@ -142,12 +142,6 @@ function buildRegionMap(target, options = {}) {
         ${regionGroups}
       </g>
       ${labelMarkup}
-      <g transform="translate(940, 60)" pointer-events="none" opacity="0.55">
-        <circle r="22" fill="none" stroke="rgba(42,42,38,0.25)" stroke-width="0.8"/>
-        <path d="M 0 -18 L 4 0 L 0 18 L -4 0 Z" fill="#2a2a26"/>
-        <path d="M -18 0 L 0 4 L 18 0 L 0 -4 Z" fill="rgba(42,42,38,0.4)"/>
-        <text y="-26" text-anchor="middle" font-family="Fraunces, serif" font-size="10" font-weight="600" fill="#2a2a26">N</text>
-      </g>
     </svg>
   `;
 

@@ -35,19 +35,24 @@ No databases. No build step. No backend. Just folders, text files, and a logo.
 │   ├── /css/style.css                  ← single stylesheet
 │   ├── /js/
 │   │   ├── main.js                     ← loads header/footer everywhere
+│   │   ├── mt-geo-data.js              ← real Montana county geometry (TIGER public domain)
 │   │   ├── region-map.js               ← the big MT region SVG map
-│   │   ├── geography.js                ← county shapes + city dots
+│   │   ├── geography.js                ← county maps + city dots
 │   │   ├── businesses.js               ← manifest of all businesses (EDIT THIS WHEN ADDING)
 │   │   └── business-loader.js          ← card rendering + search engine
-│   └── /icons/favicon.png
+│   └── /images/                        ← see /assets/images/README.md
+│       ├── /logo/                      ← brand logos (4 sizes/styles)
+│       ├── /favicon/                   ← tab icons, app icons, .ico
+│       └── /site/                      ← OG image, placeholders, page imagery
 │
 └── /businesses/
-    ├── /southwest/                     ← Gold West Country
+    ├── /glacier/                       ← Glacier Country (8 counties)
+    ├── /southwest/                     ← Gold West Country (10 counties)
     │   ├── index.html                  ← region page w/ county map
     │   ├── /beaverhead/index.html      ← county page
     │   ├── /broadwater/index.html
     │   └── ... (10 counties)
-    ├── /central/                       ← Central Montana
+    ├── /central/                       ← Central Montana (15 counties)
     │   ├── index.html
     │   ├── /teton/
     │   │   ├── index.html
@@ -59,10 +64,10 @@ No databases. No build step. No backend. Just folders, text files, and a logo.
     │   │           ├── contact.txt
     │   │           ├── social.txt
     │   │           └── logo.png
-    │   └── ... (10 counties)
-    ├── /missouri-river/                ← Missouri River Country (NE)
-    ├── /yellowstone/                   ← Yellowstone Country
-    └── /southeast/                     ← Custer Country
+    │   └── ... (15 counties)
+    ├── /missouri-river/                ← Missouri River / North East (10 counties)
+    ├── /yellowstone/                   ← Yellowstone / South Central (6 counties)
+    └── /southeast/                     ← Custer Country (7 counties)
 ```
 
 ---
@@ -99,10 +104,11 @@ Match the business's location to the right region, county, and town:
 ```
 
 Region IDs (use exactly these slugs):
+- `glacier` · Glacier Country
 - `southwest` · Southwest Montana (Gold West Country)
 - `central` · Central Montana
-- `missouri-river` · Missouri River Country
-- `yellowstone` · Yellowstone Country
+- `missouri-river` · Missouri River (North East)
+- `yellowstone` · Yellowstone (South Central)
 - `southeast` · Southeast Montana (Custer Country)
 
 County and town folders use lowercase-with-dashes (e.g. `lewis-and-clark`, `big-horn`, `fairfield`). All county folders already exist. **Town folders may not** — if it's a new town, create it.
@@ -175,16 +181,16 @@ If the town doesn't yet have an `index.html` in its folder, copy the existing on
 
 ### Step 5 — (Optional) Plot the city dot on the county map
 
-To make the new town appear as a labeled dot on the county map, open `/assets/js/geography.js`, find the right region's `counties` array, find the county, and add a city to its `cities` array:
+To make the new town appear as a labeled dot on the county map, open `/assets/js/geography.js`, find the right region's `counties` array, find the county, and add a city to its `cities` array using real latitude and longitude:
 
 ```js
-{ id: 'teton', label: 'Teton', points: '...', cities: [
-  { id: 'fairfield', label: 'Fairfield', x: 145, y: 150 },
-  { id: 'YOUR-TOWN', label: 'Your Town', x: 200, y: 165 }   // ← new
+{ id: 'teton', label: 'Teton', cities: [
+  { id: 'fairfield', label: 'Fairfield', lat: 47.6155, lon: -111.9982 },
+  { id: 'YOUR-TOWN', label: 'Your Town', lat: 47.8125, lon: -112.1828 }   // ← new
 ]}
 ```
 
-`x` and `y` are pixel coordinates within the county's `points` polygon (in the 1000×600 viewBox). Eyeball them — there's plenty of room to be approximate.
+The lat/lon get projected into the same coordinate system used by the county polygons (drawn from US Census TIGER data), so the dot will sit at the geographically correct spot inside its county. Look up the town's lat/lon in Google Maps (right-click → first line of coordinates) or on Wikipedia.
 
 Once that's added, the dot becomes a clickable link to that town's page automatically.
 
