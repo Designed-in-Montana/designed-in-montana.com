@@ -1,0 +1,10 @@
+# tag.txt — comma- or newline-separated searchable tags
+pheasant
+hunting
+dog
+preserve
+lodge
+mountain
+snowy
+bird
+
