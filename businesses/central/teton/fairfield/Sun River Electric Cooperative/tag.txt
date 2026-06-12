@@ -1,10 +1,9 @@
 # tag.txt — comma- or newline-separated searchable tags
-web design
-website development
-small business
-seo
-local business
+power
+eletric
+eletricity
+coop
 fairfield
 teton
 montana
-hosting
+
