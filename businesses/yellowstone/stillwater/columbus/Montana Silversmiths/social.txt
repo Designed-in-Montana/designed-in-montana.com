@@ -1,0 +1,11 @@
+# social.txt — only filled-in platforms will show as icons on the card
+# Supported: facebook, instagram, threads, x, pinterest, reddit, tiktok
+facebook: https://www.facebook.com/MontanaSilversmiths
+instagram: https://www.instagram.com/montana.silversmiths
+x: https://www.twitter.com/MTSilversmiths
+threads: https://www.threads.com/@montana.silversmiths
+pinterest: https://www.pinterest.com/mtsilversmiths/
+reddit:
+tiktok: https://www.tiktok.com/@montana.silversmiths
+youtube: https://www.youtube.com/user/montanasilversmiths
+linkedin: https://www.linkedin.com/company/montana-silversmiths/

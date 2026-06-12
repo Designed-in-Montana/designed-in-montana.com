@@ -1,0 +1,5 @@
+# contact.txt — fill in what applies, leave others blank
+url: https://www.montanasilversmiths.com
+address: Columbus, MT 59019
+phone: (800) 548-4511
+email: orders@montanasilversmiths.com
