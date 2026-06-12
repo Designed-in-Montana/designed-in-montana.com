@@ -18,7 +18,7 @@ window.BUSINESSES = [
     countyLabel: "Teton",
     town: "fairfield",
     townLabel: "Fairfield",
-    folder: "/businesses/central/teton/fairfield/Mountain Wizard LLC"
+    folder: "/businesses/central/teton/fairfield/Mountain Wizard"
   },
   {
     name: "Montana Wizard",
@@ -39,5 +39,55 @@ window.BUSINESSES = [
     town: "fairfield",
     townLabel: "Fairfield",
     folder: "/businesses/central/teton/fairfield/Montana Stream"
+  },
+  {
+    name: "Harvest Hills",
+    region: "central",
+    regionLabel: "Central Montana",
+    county: "teton",
+    countyLabel: "Teton",
+    town: "fairfield",
+    townLabel: "Fairfield",
+    folder: "/businesses/central/teton/fairfield/Harvest Hills"
+  },
+  {
+    name: "Sun River Electric Cooperative",
+    region: "central",
+    regionLabel: "Central Montana",
+    county: "teton",
+    countyLabel: "Teton",
+    town: "fairfield",
+    townLabel: "Fairfield",
+    folder: "/businesses/central/teton/fairfield/Sun River Electric Cooperative"
+  },
+  {
+    name: "Coppertown Blues",
+    region: "glacier",
+    regionLabel: "Glacier",
+    county: "ravalli",
+    countyLabel: "Ravalli",
+    town: "florence",
+    townLabel: "Florence",
+    folder: "/businesses/glacier/ravalli/florence/Coppertown Blues"
+  },
+  {
+    name: "Sliters Lumber & Building Supply",
+    region: "glacier",
+    regionLabel: "Glacier",
+    county: "flathead",
+    countyLabel: "Flathead",
+    town: "bigfork",
+    townLabel: "Bigfork",
+    folder: "/businesses/glacier/flathead/Bigfork/Sliters Lumber & Building Suppy"
+  },
+  {
+    name: "Montana Silversmiths",
+    region: "yellowstone",
+    regionLabel: "Yellowstone",
+    county: "stillwater",
+    countyLabel: "Stillwater",
+    town: "columbus",
+    townLabel: "Columbus",
+    folder: "/businesses/yellowstone/stillwater/columbus/Montana Silversmiths"
   }
 ];
