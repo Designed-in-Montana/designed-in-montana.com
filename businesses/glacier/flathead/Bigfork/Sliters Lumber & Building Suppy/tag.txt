@@ -1,0 +1,8 @@
+# tag.txt — comma- or newline-separated searchable tags
+tools
+lumbar
+building
+bigfork
+somers
+lakeside
+Kalispell 

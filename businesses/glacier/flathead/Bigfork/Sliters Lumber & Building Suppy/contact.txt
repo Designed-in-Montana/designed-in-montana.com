@@ -1,0 +1,5 @@
+# contact.txt — fill in what applies, leave others blank
+url: https://www.facebook.com/people/Harvest-Hills-Golf-Course/61565760373339/
+address: 8050 Hwy 35 Bigfork, MT 59911 US
+phone: (406) 837-5070
+email: Andrea@sliters.com

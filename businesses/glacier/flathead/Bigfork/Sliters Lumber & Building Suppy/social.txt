@@ -1,0 +1,11 @@
+# social.txt — only filled-in platforms will show as icons on the card
+# Supported: facebook, instagram, threads, x, pinterest, reddit, tiktok
+facebook: https://www.facebook.com/SLITERS/
+instagram: 
+x: 
+threads: 
+pinterest: 
+reddit:
+tiktok: 
+youtube: 
+linkedin:
