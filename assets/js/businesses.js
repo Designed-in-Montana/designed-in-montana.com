@@ -80,6 +80,16 @@ window.BUSINESSES = [
     townLabel: "Bigfork",
     folder: "/businesses/glacier/flathead/Bigfork/Sliters Lumber & Building Suppy"
   },
+   {
+    name: "Snowy Mountain Pheasant Co",
+    region: "central",
+    regionLabel: "Central Montana",
+    county: "fergus",
+    countyLabel: "Fergus",
+    town: "moore",
+    townLabel: "Moore",
+    folder: "/businesses/central/fergus/Moore/Snowy Mountain Pheasant Co"
+  },
   {
     name: "Montana Silversmiths",
     region: "yellowstone",
