@@ -1,0 +1,5 @@
+# contact.txt — fill in what applies, leave others blank
+url: https://sunriverelectric.coop
+address: 310 1st Avenue South, Fairfield MT 59436
+phone: (406) 467-2526
+email: 

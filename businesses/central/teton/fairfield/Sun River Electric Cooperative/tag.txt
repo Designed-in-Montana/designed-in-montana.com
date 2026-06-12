@@ -1,0 +1,10 @@
+# tag.txt — comma- or newline-separated searchable tags
+web design
+website development
+small business
+seo
+local business
+fairfield
+teton
+montana
+hosting
