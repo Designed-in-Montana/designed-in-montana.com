@@ -1,0 +1,11 @@
+# social.txt — only filled-in platforms will show as icons on the card
+# Supported: facebook, instagram, threads, x, pinterest, reddit, tiktok
+facebook:
+instagram:
+x:
+threads: 
+pinterest:
+reddit:
+tiktok: 
+youtube: https://www.youtube.com/@coppertown2702
+linkedin: 
