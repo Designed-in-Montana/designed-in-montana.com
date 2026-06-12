@@ -1,0 +1,6 @@
+# tag.txt — comma- or newline-separated searchable tags
+golf
+mountain
+farmer
+harvest
+course

@@ -1,0 +1,5 @@
+# contact.txt — fill in what applies, leave others blank
+url: https://www.facebook.com/people/Harvest-Hills-Golf-Course/61565760373339/
+address: 2280 Hwy 89, Fairfield, MT, United States, Montana
+phone: (406) 467-2052
+email: harvesthillsfairfield@gmail.com
