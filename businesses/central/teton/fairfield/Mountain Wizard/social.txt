@@ -1,11 +1,11 @@
 # social.txt — only filled-in platforms will show as icons on the card
 # Supported: facebook, instagram, threads, x, pinterest, reddit, tiktok
-facebook: https://www.facebook.com/people/Mountain-Wizard-LLC/61561345755049/
-instagram: https://www.instagram.com/mountainwizardllc/
-x: https://x.com/MountainWizLLC
-threads: https://www.threads.com/@mountainwizardllc
-pinterest: https://www.pinterest.com/mountainwizard/
-reddit:
-tiktok: https://www.tiktok.com/@mountainwizard_llc
-youtube: https://www.youtube.com/@mountainwizardllc
-linkedin: https://www.linkedin.com/company/mountainwizard/
+facebook: https://www.mountain-wizard.com/
+instagram: https://instagram.mountain-wizard.com/
+x: https://x.mountain-wizard.com/
+threads: https://threads.mountain-wizard.com/
+pinterest: https://pintrest.mountain-wizard.com/
+reddit: 
+tiktok: https://tiktok.mountain-wizard.com/
+youtube: https://youtube.mountain-wizard.com/
+linkedin: https://linkedin.mountain-wizard.com/
